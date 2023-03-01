@@ -1,11 +1,8 @@
 from django.shortcuts import render
+# Importing the Finch Model from models.py
+from .models import Finch
 
-finches = [
-  {'name': 'Zulu', 'type': 'Cassia Crossbill', 'description': 'will fight birds for seeds', 'age': 2},
-  {'name': 'Thomas', 'type': 'Indigo Bunting', 'description': 'likes to bring humans sticks', 'age': 1},
-]
-
-# Create your views here.
+# Create your views here.1
 # Define the home view
 def home(request):
     #include an .html file extension - ublike when rendering EJS Templates
@@ -15,6 +12,9 @@ def about(request):
     return render(request, 'about.html')
 
 def finches_index(request):
-    return render(request, 'finches/index.html', {
-        'finches': finches
-    })
+    finches = Finch.objects.all()
+    return render(request, 'finches/index.html', { 'finches': finches })
+
+def finches_detail(request, finch_id):
+    finch = Finch.objects.get(id=finch_id)
+    return render(request, 'finches/detail.html', { 'finch': finch })
