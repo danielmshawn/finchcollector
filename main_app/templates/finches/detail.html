@@ -30,6 +30,12 @@
       {{ feeding_form.as_p }}
       <input type="submit" class="btn" value="Add Feeding">
     </form>
+    <br>
+    {% if finch.fed_for_today %}
+      <div class="card-panel teal-text center-align">{{finch.name}} is full for the day!</div>
+    {% else %}
+      <div class="card-panel red-text center-align">{{finch.name}} still needs to fed more today!</div>
+    {% endif %}
     <table class="striped">
       <thead>
         <tr><th>Date</th><th>Meal</th></tr>
@@ -51,7 +57,7 @@
   const dateEl = document.getElementById('id_date');
   // M is Materialize's global variable
   M.Datepicker.init(dateEl, {
-    format: 'yyyy=mm-dd',
+    format: 'yyyy-mm-dd',
     defaultDate: new Date(),
     setDefaultDate: true,
     autoClose: true
