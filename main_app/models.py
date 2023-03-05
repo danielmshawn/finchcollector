@@ -2,6 +2,7 @@ from django.db import models
 # Import the reverse function
 from django.urls import reverse
 from datetime import date
+from django.contrib.auth.models import User
 
 MEALS = (
     ('M', 'Morning'),
@@ -10,11 +11,26 @@ MEALS = (
 )
 
 # Create your models here.
+class Accessory(models.Model):
+  name = models.CharField(max_length=50)
+  color = models.CharField(max_length=20)
+
+  def __str__(self):
+    return self.name
+
+  def get_absolute_url(self):
+    return reverse('accessories_detail', kwargs={'pk': self.id})
+
 class Finch(models.Model):
     name = models.CharField(max_length=100)
     species = models.CharField(max_length=100)
     description = models.TextField(max_length=250)
     age = models.IntegerField()
+    # create a M:M relationdhip with Accessory
+    # accessories is the Related Manager
+    accessories = models.ManyToManyField(Accessory)
+    # add user_id FK column
+    # user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.name} ({self.id})'

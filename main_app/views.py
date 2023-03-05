@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
 # Importing the Finch Model from models.py
-from .models import Finch
+from .models import Finch, Accessory
 from .forms import FeedingForm
 
 # Create your views here.1
@@ -49,3 +50,31 @@ class FinchUpdate(UpdateView):
 class FinchDelete(DeleteView):
     model = Finch
     success_url = '/finches'
+
+class AccessoryList(ListView):
+  model = Accessory
+
+class AccessoryDetail(DetailView):
+  model = Accessory
+
+class AccessoryCreate(CreateView):
+  model = Accessory
+  fields = '__all__'
+
+class AccessoryUpdate(UpdateView):
+  model = Accessory
+  fields = ['name', 'color']
+
+class AccessoryDelete(DeleteView):
+  model = Accessory
+  success_url = '/accessories'
+
+# @login_required
+def assoc_accessory(request, finch_id, accessory_id):
+  Finch.objects.get(id=finch_id).accessories.add(accessory_id)
+  return redirect('detail', finch_id=finch_id)
+
+# @login_required
+def unassoc_accessory(request, finch_id, accessory_id):
+  Finch.objects.get(id=finch_id).accessories.remove(accessory_id)
+  return redirect('detail', finch_id=finch_id)
