@@ -2,7 +2,7 @@ from django.db import models
 # Import the reverse function
 from django.urls import reverse
 from datetime import date
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 
 MEALS = (
     ('M', 'Morning'),

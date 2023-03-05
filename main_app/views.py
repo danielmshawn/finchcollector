@@ -20,10 +20,17 @@ def finches_index(request):
 
 def finches_detail(request, finch_id):
     finch = Finch.objects.get(id=finch_id)
+    # Get the accessories the finch doesn't have...
+    # First, create a list of the accessory ids that the finch DOES have
+    id_list = finch.accessories.all().values_list('id')
+    # Now we can query for toys whose ids are not in the list using exclude
+    accessories_finch_doesnt_have = Accessory.objects.exclude(id__in=id_list)
     # Here we instantiate the FeedingForm class from forms.py which will render the form on the detail pg
     feeding_form = FeedingForm()
     return render(request, 'finches/detail.html', {
-        'finch': finch, 'feeding_form': feeding_form
+        'finch': finch, 'feeding_form': feeding_form,
+        # Add the accessories to be displayed
+        'accessories': accessories_finch_doesnt_have
         })
 
 def add_feeding(request, finch_id):
