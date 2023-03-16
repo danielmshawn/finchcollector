@@ -5,7 +5,6 @@ from django.views.generic import ListView, DetailView
 from .models import Finch, Accessory
 from .forms import FeedingForm
 
-# Create your views here.1
 # Define the home view
 def home(request):
     #include an .html file extension - ublike when rendering EJS Templates
@@ -47,7 +46,7 @@ def add_feeding(request, finch_id):
 
 class FinchCreate(CreateView):
     model = Finch
-    fields = '__all__'
+    fields = ['name', 'species', 'description', 'age']
 
 
 class FinchUpdate(UpdateView):
